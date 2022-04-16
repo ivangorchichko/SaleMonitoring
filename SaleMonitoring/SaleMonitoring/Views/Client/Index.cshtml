@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@using SaleMonitoring.PageHelper
+@using SaleMonitoring.BL.Enums
+@model SaleMonitoring.Models.Page.ModelsInPageViewModel
+
+<div class="jumbotron">
+    <h2>Все клиенты</h2>
+</div>
+<div>
+    @using (Ajax.BeginForm("GetClients", new AjaxOptions { UpdateTargetId = "clientBlock" }))
+    {
+        <div>
+            <table class="table">
+                <tr>
+                    <td>
+                        <div class="text-danger">@ViewBag.NotValidParse</div>
+                        <div class="editor-label">
+                            <label>Введите строку фильтрации</label>
+                        </div>
+                        <div class="editor-field">
+                            @Html.TextBox("fieldString")
+                        </div>
+                        <div id="filter-radio-button">
+                            <input name="filter" type="radio" value=@TextFieldFilter.Default checked>
+                            <span>Нету</span><br>
+                            <input name="filter" type="radio" value=@TextFieldFilter.ClientName>
+                            <span>Имя клиента</span><br>
+                            <input name="filter" type="radio" value=@TextFieldFilter.Telephone>
+                            <span>Телефон клиента</span><br>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="Поиск" class="btn btn-success" />
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+    <div id="clientBlock"></div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+    $(document).ready(function () {
+        getClients();
+    });
+
+    function getClients() {
+        jQuery.ajax(
+            {
+                url: "@Url.Action("GetClients", "Client")",
+                data: { page:@ViewBag.CurrentPage},
+                type: "GET",
+                success: function (data, textStatus, XHR) {
+                    jQuery("#clientBlock").html(data);
+                },
+                dataType: "html"
+            }
+        );
+    }
+
+</script>
+

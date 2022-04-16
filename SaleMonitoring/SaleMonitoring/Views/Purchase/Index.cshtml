@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@using SaleMonitoring.BL.Enums
+@model SaleMonitoring.Models.Page.ModelsInPageViewModel
+
+<div class="jumbotron">
+    <h2>Все продажи</h2>
+</div>
+<div>
+    <div class="text-danger">@ViewBag.NotValidParse</div>
+    <div class="editor-label">
+        <label>Введите строку фильтрации</label>
+    </div>
+    @using (Ajax.BeginForm("GetPurchases", new AjaxOptions {UpdateTargetId = "purchaseBlock"}))
+    {
+        <div>
+            <table class="table">
+                <tr>
+                    <td>
+                        <div class="editor-field">
+                            @Html.TextBox("fieldString")
+                        </div>
+                        <div id="filter-radio-button">
+                            <input name="filter" type="radio" value=@TextFieldFilter.Default checked>
+                            <span>Нету</span><br>
+                            <input name="filter" type="radio" value=@TextFieldFilter.ProductName>
+                            <span>Имя продукта</span><br>
+                            <input name="filter" type="radio" value=@TextFieldFilter.ClientName>
+                            <span>Имя клиента</span><br>
+                            <input name="filter" type="radio" value=@TextFieldFilter.Date>
+                            <span>Дата</span><br>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="Поиск" class="btn btn-success"/>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+    <div id="purchaseBlock"></div>
+    <div id="columnchart">
+        @Html.Partial("_Chart", Model)
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+    $(document).ready(function () {
+        getClients();
+    });
+
+    function getClients() {
+        jQuery.ajax(
+            {
+                url: "@Url.Action("GetPurchases", "Purchase")",
+                data: { page:@ViewBag.CurrentPage},
+                type: "GET",
+                success: function (data, textStatus, XHR) {
+                    jQuery("#purchaseBlock").html(data);
+                },
+                dataType: "html"
+            }
+        );
+    }
+
+</script>
+

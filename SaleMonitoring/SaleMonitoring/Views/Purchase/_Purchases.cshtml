@@ -1,0 +1,46 @@
+﻿@using SaleMonitoring.PageHelper
+@model SaleMonitoring.Models.Page.ModelsInPageViewModel
+
+<div class="row">
+    <table class="table table-striped">
+        <thead class="bg-info">
+        <td><p>Клиент</p></td>
+        <td><p>Продукт</p></td>
+        <td><p>Дата</p></td>
+        @if (User.IsInRole("admin"))
+        {
+            <td>
+                <p>@Html.ActionLink("Create", "Create")</p>
+            </td>
+        }
+        else
+        {
+            <td></td>
+        }
+        </thead>
+        @foreach (var b in Model.Purchases)
+        {
+            <tr>
+                <td><p>@b.ClientName</p></td>
+                <td><p>@b.ProductName</p></td>
+                <td><p>@b.Date</p></td>
+                <td>
+                    @if (User.IsInRole("admin"))
+                    {
+                        @Html.ActionLink("Modify", "Modify", new { id = b.Id })
+                    }
+                    @Html.ActionLink("Details", "Details", new { id = @b.Id })
+                    @if (User.IsInRole("admin"))
+                    {
+                        @Html.ActionLink("Delete", "Delete", new { id = @b.Id })
+
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+    <br />
+    <div class="btn-group">
+        @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x }))
+    </div>
+</div>

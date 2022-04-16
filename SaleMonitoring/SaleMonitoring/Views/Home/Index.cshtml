@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@model IList<SaleMonitoring.Models.Purchase.PurchaseViewModel>
+
+<div class="jumbotron">
+    <h2>Приветствую вас на статистике продаж!</h2>
+</div>
+
+<div class="row">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <h3>Последние продажи!</h3>
+        using (Ajax.BeginForm("Index", new AjaxOptions()))
+        {
+            <table class="table table-striped">
+                <thead class="bg-info">
+                <td>
+                    <p>Клиент</p>
+                </td>
+                <td>
+                    <p>Продукт</p>
+                </td>
+                <td>
+                    <p>Цена</p>
+                </td>
+                <td>
+                    <p>Дата</p>
+                </td>
+                </thead>
+                @for (int i = 3; i > 0; i--)
+                {
+                    <tr>
+                        <td>
+                            <p>@Model[i].ClientName</p>
+                        </td>
+                        <td>
+                            <p>@Model[i].ProductName</p>
+                        </td>
+                        <td>
+                            <p>@Model[i].Price</p>
+                        </td>
+                        <td>
+                            <p>@Model[i].Date</p>
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    }
+    else
+    {
+        <h1>Пожалуйста зарегестрируйтесь для дальнейшего просмотра!</h1>
+    }
+</div>

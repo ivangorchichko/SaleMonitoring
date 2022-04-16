@@ -1,0 +1,53 @@
+﻿@model SaleMonitoring.Identity.Models.Account.RegisterViewModel
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Регистрация</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+    <div>
+        <h4>Регистрация пользователя</h4>
+        <hr />
+        @Html.ValidationSummary(false)
+
+        <div>
+            Электронный адрес
+            <div>
+                @Html.EditorFor(model => model.Email)
+            </div>
+        </div>
+
+        <div>
+            Имя пользователя
+            <div>
+                @Html.EditorFor(model => model.NickName)
+            </div>
+        </div>
+
+        <div>
+            Пароль
+            <div>
+                @Html.EditorFor(model => model.Password)
+            </div>
+        </div>
+
+        <div>
+            Подтвердить пароль
+            <div>
+                @Html.EditorFor(model => model.ConfirmPassword)
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <input type="submit" value="Зарегистрировать" />
+            </div>
+        </div>
+    </div>
+}

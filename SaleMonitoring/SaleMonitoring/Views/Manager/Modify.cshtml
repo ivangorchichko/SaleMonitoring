@@ -1,0 +1,43 @@
+﻿@model SaleMonitoring.Models.Manager.ManagerViewModel
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>Modify</h2>
+
+<div class="panel-success">
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary()
+            <div class="form-group">
+                <label>Имя менеджера</label>
+                <h4>Прежнее имя менеджера : @Model.ManagerName</h4>
+                @Html.TextBoxFor(x => x.ManagerName, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Телефон менеджера</label>
+                <h4>Прежний телефон менеджера : @Model.ManagerTelephone</h4>
+                @Html.TextBoxFor(x => x.ManagerTelephone, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Ранг менеджера</label>
+                <h4>Прежний ранг менеджера : @Model.ManagerRank</h4>
+                @Html.TextBoxFor(x => x.ManagerRank, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Изменить дату доавления менеджера</label>
+                <h4>Прежняя дата : @Model.Date</h4>
+                @Html.TextBoxFor(x => x.Date, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="text-center">
+                <input type="submit" value="Сохранить" class="btn btn-success" />
+            </div>
+        }
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

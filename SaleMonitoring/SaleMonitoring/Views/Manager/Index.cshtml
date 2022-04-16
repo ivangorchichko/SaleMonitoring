@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@using SaleMonitoring.BL.Enums
+
+<div class="jumbotron">
+    <h2>Все менеджеры</h2>
+</div>
+<div>
+    @using (Ajax.BeginForm("GetManagers", new AjaxOptions { UpdateTargetId = "managerBlock" }))
+    {
+        <div>
+            <table class="table">
+                <tr>
+                    <td>
+                        <div class="text-danger">@ViewBag.NotValidParse</div>
+                        <div class="editor-label">
+                            <label>Введите строку фильтрации</label>
+                        </div>
+                        <div class="editor-field">
+                            @Html.TextBox("fieldString")
+                        </div>
+                        <div id="filter-radio-button">
+                            <input name="filter" type="radio" value=@TextFieldFilter.Default checked>
+                            <span>Нету</span><br>
+                            <input name="filter" type="radio" value=@TextFieldFilter.ManagerName>
+                            <span>Имя менеджера</span><br>
+                            <input name="filter" type="radio" value=@TextFieldFilter.Telephone>
+                            <span>Телефон менеджера</span><br>
+                            <input name="filter" type="radio" value=@TextFieldFilter.ManagerRank>
+                            <span>Ранг менеджера</span><br>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="Поиск" class="btn btn-success" />
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+    <div id="managerBlock"></div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+    $(document).ready(function () {
+        getManagers();
+    });
+
+    function getManagers() {
+        jQuery.ajax(
+            {
+                url: "@Url.Action("GetManagers", "Manager")",
+                data: { page:@ViewBag.CurrentPage},
+                type: "GET",
+                success: function (data, textStatus, XHR) {
+                    jQuery("#managerBlock").html(data);
+                },
+                dataType: "html"
+            }
+        );
+    }
+
+</script>
+
